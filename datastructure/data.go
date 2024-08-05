@@ -97,3 +97,136 @@ func Map() {
 
 	fmt.Println(m2)
 }
+
+type Object struct {
+}
+
+type Object2 struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+type MyError struct {
+	Code string
+}
+
+func (MyError) Error() string {
+	return "err from my err"
+}
+
+func MyErr(i int) error {
+	if i == 1 {
+		return MyError{
+			Code: "ajhkahskklsjl",
+		}
+	} else {
+		return fmt.Errorf("err from fmt")
+	}
+}
+
+// interface with multiple type
+func printData(req interface{}) {
+	i := 2
+	err := MyErr(i)
+
+	if e, ok := err.(MyError); ok {
+		fmt.Println(e)
+	} else {
+		fmt.Println(err)
+	}
+
+	// parse to type
+	if data, ok := req.(Object); ok {
+		fmt.Println(data)
+		// xu ly
+	}
+
+	if data, ok := req.(Object2); ok {
+		fmt.Println(data)
+		// xu ly
+	}
+
+	// use switch case
+	switch t := req.(type) {
+	case string:
+		fmt.Printf("print with type string: %s \n", t)
+	case int:
+		fmt.Printf("print with type int: %d \n", t)
+	default:
+		fmt.Println("unexpected type")
+	}
+}
+
+// Abstract
+type iMethod interface {
+	GetName() string
+}
+
+type BangServer struct {
+	name string
+}
+
+// concrete
+func (bs BangServer) GetName() string {
+	return bs.name
+}
+
+type QuangServer struct {
+	name string
+}
+
+func (qs QuangServer) GetName() string {
+	// add more logic
+	return qs.name
+}
+
+type MethodIsFunction struct {
+}
+
+func (mif MethodIsFunction) GetName() string {
+	return "method is function"
+}
+
+type User struct {
+	id       int
+	email    string
+	provider string
+}
+
+func NewUser(id int, email string) User {
+	return User{
+		id:    id,
+		email: email,
+	}
+}
+
+func (u User) IsGoogleProvider() bool {
+	// logc phuc tap
+	return u.provider == "google"
+}
+
+func (u User) IsGithubProvider() bool {
+	return u.provider == "github"
+}
+
+func interfaceWithMethod() {
+	var i iMethod
+	// i = BangServer{
+	// 	name: "Quoc Bang",
+	// }
+	i = &MethodIsFunction{}
+
+	fmt.Println(i.GetName())
+}
+
+func Interface() {
+	// khai bao
+	// var i interface{}
+	// i = "Bang"
+
+	user := NewUser(1, "email@gmail.com")
+
+	fmt.Println(user.IsGoogleProvider())
+
+	// interfaceWithMethod()
+}
