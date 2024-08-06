@@ -1,8 +1,10 @@
 package c
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func init() {
 	fmt.Println("Init in c")
-}
 
+}
