@@ -1,13 +1,19 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"log"
+	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
 // fmt, time, duration
 func main() {
+	return
 	// fmt.Printf("print %s %s\n", "second", "third")
 	// fmt.Println("print line")
 	// str := "my name is: " + "bang"
@@ -56,4 +62,162 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(d)
+}
+
+// io, os
+func ioPkg() {
+	bs := make([]byte, 100)
+	for i := 0; i < 99; i++ {
+		bs[i] = byte(i * 10)
+	}
+
+	// dung de copy data tu file A -> B
+	a := &bytes.Buffer{}
+	numberOfCopied, err := io.Copy(a, bytes.NewBuffer(bs))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(numberOfCopied)
+
+	fmt.Println(a)
+
+	// b, err := io.ReadAll(a)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	fmt.Println(a.Bytes())
+
+	_, err = io.WriteString(a, "c")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(a.Bytes())
+}
+
+func osPkg() {
+	// lenh chmod la lenh de cap quyen
+	// os.Chmod()
+	// err := os.Chdir("common")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// data, err := os.ReadFile("data.json")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(data)
+
+	// TAO VA GHI FILE
+	{
+		err := os.Chdir("../")
+		if err != nil {
+			log.Fatal(err)
+		}
+		file, err := os.Create("tmp/myfile.text")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		str := "tui ten la bang"
+		_, err = file.Write([]byte(str))
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	// TAO FILE DUONG DAN TAM
+	{
+		// f, err := os.CreateTemp("", "test.txt")
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+		// defer f.Close()
+		// str := "I'm groot"
+		// f.Write([]byte(str))
+	}
+
+	{
+		// mv
+		// touch
+		// mkdir
+		//...
+	}
+
+	// add logic
+}
+
+// strconv
+func strconvPkg() {
+	// string to int
+	{
+		i, err := strconv.Atoi("123")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(i)
+	}
+
+	// int to string
+	{
+		str := strconv.Itoa(123434)
+		fmt.Println(str == "123434")
+	}
+
+	{
+		data := `{
+			"name": "bang",
+			"age": 24
+		}`
+
+		str := strconv.QuoteToASCII(data)
+		fmt.Println(str)
+	}
+}
+
+func str() {
+	// string builder
+	{
+		bd := strings.Builder{}
+		a := "a"
+		b := "b"
+		bd.WriteString(a)
+		bd.WriteString(b)
+		fmt.Println(bd.String())
+	}
+
+	// replace
+	{
+		a := "abcdf"
+		str := strings.Replace(a, "bc", "aa", -1)
+		fmt.Println(str)
+	}
+
+	{
+		a := "&toi la bang@"
+		s := strings.Trim(a, "&@")
+		fmt.Println(s)
+	}
+
+	{
+		a := "  ss sss sss  "
+		fmt.Println(strings.TrimSpace(a))
+	}
+	{
+		a := "great"
+		fmt.Println(strings.ToUpper(a))
+	}
+	{
+		a := "gReAt"
+		fmt.Println(strings.ToLower(a))
+	}
+
+	{
+		a := "toi la bang"
+		ss := strings.Split(a, " ")
+		fmt.Println(ss)
+	}
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package errors;
+option go_package = "github.com/quocbang/learn-go";
+
+// example: 101010
+// 1: service number, 01: model number, 010 error number
+enum Code {
+  UNSPECIFIED    = 0;
+  INVALID_PARAMS = 101010;
+}
+
