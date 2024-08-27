@@ -1,0 +1,11 @@
+version: '3'
+
+name: learn-go
+
+services:
+  learn-go:
+    image: bangquoc9/learn-go:v0.1.0
+    container_name: "learn-go"
+    ports:
+      - 8888:8082
+    command: ["/server/learn"]
